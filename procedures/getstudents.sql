@@ -3,7 +3,32 @@ select * from class
 select * from major
 select * from schedule
 
-ALTER TABLE student
+create procedure ReplaceScheduledClass
+	@OldClassName varchar(50) = null,  @NewClassName varchar(50) = null
+AS
+BEGIN
+	IF @OldClassName = null or @NewClassName = null
+	BEGIN
+		PRINT 'Old class or new class was not supplied and is required'
+		RETURN
+	END
+	--add new class
+	INSERT into Class (Description) VALUES (@NewClassName);
+	--
+	UPDATE class set SELECT * from schedule s
+		join Class c on c.Id = s.ClassId
+		where c.Description = @OldClassName
+
+END
+go
+exec ReplaceScheduledClass @OldClassName='Math 103', @NewClassName='Math 106'
+/*
+declare @StudentID int;
+select @StudentID = id from student where lastname='Zell'
+print @StudentID
+*/
+/*
+ALTER TABLE st*udent
 	ADD phone varchar(12) 
 ALTER TABLE student
 	DROP COLUMN phone
@@ -19,3 +44,10 @@ BEGIN
 END
 go
 exec GetAllStudents @SAT=2000
+
+select COUNT(*), max(gpa), min(sat) from student
+
+
+declare @name nvarchar(10) = N'Hello';
+print @name;
+*/
