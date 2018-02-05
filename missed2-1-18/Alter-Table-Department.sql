@@ -12,4 +12,4 @@ alter table department
 alter table department
 	drop column CostCenter
 
-select * from department
+select * from department	
